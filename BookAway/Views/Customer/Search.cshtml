@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BookAway.Models.Hotel>
+﻿@model IEnumerable<BookAway.Models.HotelDisplay_Result>
 
 @{
     ViewBag.Title = "Search";
@@ -10,6 +10,7 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+
 <table class="table">
     <tr>
         <th>
@@ -37,7 +38,7 @@
             @Html.DisplayNameFor(model => model.HotelCity)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.HotelOwner1.HOwnerUsername)
+            @Html.DisplayNameFor(model => model.HotelOwner)
         </th>
         <th></th>
     </tr>
@@ -69,7 +70,7 @@
             @Html.DisplayFor(modelItem => item.HotelCity)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.HotelOwner1.HOwnerUsername)
+            @Html.DisplayFor(modelItem => item.HotelOwner)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |

@@ -12,10 +12,10 @@ namespace BookAway.Controllers
 {
     public class CustomerController : Controller
     {
-        SqlConnection sql;
-        SqlCommand cmd;
-        string str = "server=INL372;database=BookAway;trusted_connection=true";
-        SqlDataReader sdr;
+        //SqlConnection sql;
+        //SqlCommand cmd;
+        //string str = "server=INL372;database=BookAway;trusted_connection=true";
+        //SqlDataReader sdr;
         BookAwayEntities entities = new BookAwayEntities();
         // GET: Customer
         public ActionResult Index()
@@ -82,21 +82,24 @@ namespace BookAway.Controllers
             //              where d.FirstOrDefault().CheckIn <= search.CheckIn && search.CheckOut <= d.FirstOrDefault().CheckOut
             //              select new { Id = h.Id, rooms = h.TotalOfRooms - d.Sum(x => x.NOfRooms) }).ToList();
             //var hotels = from h in entities.Hotels join s in noRooms on h.Id equals s.Id where h.HotelCity == search.Detsination && search.Rooms <= s.rooms select h;
-            SqlConnection sql = new SqlConnection(str);
-            cmd = new SqlCommand()
-            {
-                Connection = sql,
-                CommandText = "HoelDisp",
-                CommandType = CommandType.StoredProcedure
-            };
-            cmd.Parameters.AddWithValue("@checkin",search.CheckIn);
-            cmd.Parameters.AddWithValue("@checkout",search.CheckOut);
-            cmd.Parameters.AddWithValue("@dest",search.Detsination);
-            cmd.Parameters.AddWithValue("@room",search.Rooms);
-            sql.Open();
-            sdr = cmd.ExecuteReader();
+            //SqlConnection sql = new SqlConnection(str);
+            //cmd = new SqlCommand()
+            //{
+            //    Connection = sql,
+            //    CommandText = "HoelDisp",
+            //    CommandType = CommandType.StoredProcedure
+            //};
+            //cmd.Parameters.AddWithValue("@checkin",search.CheckIn);
+            //cmd.Parameters.AddWithValue("@checkout",search.CheckOut);
+            //cmd.Parameters.AddWithValue("@dest",search.Detsination);
+            //cmd.Parameters.AddWithValue("@room",search.Rooms);
+            //sql.Open();
+            //sdr = cmd.ExecuteReader();
+            //sd
             
-            return View(sdr);
+            var hotels = entities.HotelDisplay(search.CheckIn, search.CheckOut, search.Detsination, search.Rooms);
+          
+            return View(hotels.ToList());
         }
 
     }

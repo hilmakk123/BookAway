@@ -60,7 +60,7 @@ namespace BookAway.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("insertIntoBookin", hIdParameter, cIdParameter, checkInParameter, checkOutParameter, noofRoomsBookedParameter, bkRooms, totRooms, avRooms);
         }
     
-        public virtual ObjectResult<HoelDisp_Result> HoelDisp(Nullable<System.DateTime> checkin, Nullable<System.DateTime> checkout, string dest, Nullable<int> room)
+        public virtual ObjectResult<Hotel> HoelDisp(Nullable<System.DateTime> checkin, Nullable<System.DateTime> checkout, string dest, Nullable<int> room)
         {
             var checkinParameter = checkin.HasValue ?
                 new ObjectParameter("checkin", checkin) :
@@ -78,7 +78,54 @@ namespace BookAway.Models
                 new ObjectParameter("room", room) :
                 new ObjectParameter("room", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<HoelDisp_Result>("HoelDisp", checkinParameter, checkoutParameter, destParameter, roomParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Hotel>("HoelDisp", checkinParameter, checkoutParameter, destParameter, roomParameter);
+        }
+    
+        public virtual ObjectResult<Hotel> HoelDisp(Nullable<System.DateTime> checkin, Nullable<System.DateTime> checkout, string dest, Nullable<int> room, MergeOption mergeOption)
+        {
+            var checkinParameter = checkin.HasValue ?
+                new ObjectParameter("checkin", checkin) :
+                new ObjectParameter("checkin", typeof(System.DateTime));
+    
+            var checkoutParameter = checkout.HasValue ?
+                new ObjectParameter("checkout", checkout) :
+                new ObjectParameter("checkout", typeof(System.DateTime));
+    
+            var destParameter = dest != null ?
+                new ObjectParameter("dest", dest) :
+                new ObjectParameter("dest", typeof(string));
+    
+            var roomParameter = room.HasValue ?
+                new ObjectParameter("room", room) :
+                new ObjectParameter("room", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Hotel>("HoelDisp", mergeOption, checkinParameter, checkoutParameter, destParameter, roomParameter);
+        }
+    
+        public virtual ObjectResult<HotelDisplay_Result> HotelDisplay(Nullable<System.DateTime> checkin, Nullable<System.DateTime> checkout, string dest, Nullable<int> room)
+        {
+            var checkinParameter = checkin.HasValue ?
+                new ObjectParameter("checkin", checkin) :
+                new ObjectParameter("checkin", typeof(System.DateTime));
+    
+            var checkoutParameter = checkout.HasValue ?
+                new ObjectParameter("checkout", checkout) :
+                new ObjectParameter("checkout", typeof(System.DateTime));
+    
+            var destParameter = dest != null ?
+                new ObjectParameter("dest", dest) :
+                new ObjectParameter("dest", typeof(string));
+    
+            var roomParameter = room.HasValue ?
+                new ObjectParameter("room", room) :
+                new ObjectParameter("room", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<HotelDisplay_Result>("HotelDisplay", checkinParameter, checkoutParameter, destParameter, roomParameter);
+        }
+    
+        public virtual ObjectResult<disp_Result> disp()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<disp_Result>("disp");
         }
     }
 }
