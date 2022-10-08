@@ -32,7 +32,7 @@ namespace BookAway.Controllers
         {
             var noRooms = from h in entities.Hotels
                           join b in entities.Bookings on h.Id equals b.Id
-                          where b.CheckIn <= search.CheckIn && search.CheckOut <= b.CheckOut group 
+                          where b.CheckIn <= search.CheckIn && search.CheckOut <= b.CheckOut group h by h.Id 
                           select new { Id = h.Id, rooms = h.TotalOfRooms - b.NOfRooms };
             var hotels = from h in entities.Hotels join s in noRooms on h.Id equals s.Id where h.HotelCity == search.Detsination && search.Rooms <= s.rooms select h;
             // var hotels = entities.Hotels.Select(x => x.HotelCity == search.Detsination && x.Id);
