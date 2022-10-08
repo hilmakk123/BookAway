@@ -28,16 +28,19 @@ namespace BookAway.Controllers
         }
 
         [HttpPost]
-        public ActionResult Search(Search search)
+        public ActionResult Index(Search search)
         {
-            var noRooms = from h in entities.Hotels
-                          join b in entities.Bookings on h.Id equals b.Id
-                          where b.CheckIn <= search.CheckIn && search.CheckOut <= b.CheckOut 
-                          select new { Id = h.Id, rooms = h.TotalOfRooms - b.NOfRooms };
-            var hotels = from h in entities.Hotels join s in noRooms on h.Id equals s.Id where h.HotelCity == search.Detsination && search.Rooms <= s.rooms select h;
-             var hotelss = entities.Hotels.Select(x => x.HotelCity == search.Detsination && x.Id);
-            return View(hotels.ToList());
+            //var noRooms = from b in entities.Bookings
+            //              group b by b.Id into d
+            //              join h in entities.Hotels on d.FirstOrDefault().Id equals h.Id
+            //              where d.FirstOrDefault().CheckIn <= search.CheckIn && search.CheckOut <= d.FirstOrDefault().CheckOut
+            //              select new { Id = h.Id, rooms = h.TotalOfRooms - d.Sum(x => x.NOfRooms) };
+            //var hotels = from h in entities.Hotels join s in noRooms on h.Id equals s.Id where h.HotelCity == search.Detsination && search.Rooms <= s.rooms select h;
+            // var hotelss = entities.Hotels.Select(x => x.HotelCity == search.Detsination && x.Id);
+
+            return RedirectToAction("Search","Customer",search);
         }
+       
 
         public ActionResult About()
         {

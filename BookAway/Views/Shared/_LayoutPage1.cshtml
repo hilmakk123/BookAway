@@ -79,6 +79,7 @@
                                     @if (User.Identity.IsAuthenticated)
                                     {
                                         <li class="main_nav_item">@Html.ActionLink("Logout", "LogOutCust", "Customer")</li>
+                                        <li>@User.Identity.ToString()</li>
                                     }
                                     else
                                     {

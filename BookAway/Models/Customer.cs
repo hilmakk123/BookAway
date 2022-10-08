@@ -11,8 +11,7 @@ namespace BookAway.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class Customer
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -23,26 +22,13 @@ namespace BookAway.Models
         }
     
         public int Id { get; set; }
-        [Required(ErrorMessage = "Enter Your Username")]
         public string CustUsername { get; set; }
-        [Required(ErrorMessage = "Enter Your Password")]
-        [DataType(DataType.Password)]
         public string CustPassword { get; set; }
-        [Compare("CustPassword", ErrorMessage = "Password Doesnt match. try again")]
-        public string ConfirmPass { get; set; }
-        [Required(ErrorMessage = "Enter Your FirstName")]
-
         public string CustFirstName { get; set; }
-        [Required(ErrorMessage = "Enter Your Last Name")]
-
         public string CustLastName { get; set; }
-        [Required(ErrorMessage = "Enter Your Email")]
-        [DataType(DataType.EmailAddress, ErrorMessage = "Wrong Email")]
         public string CustEmail { get; set; }
-        [Required(ErrorMessage = "Enter Your Phone Number")]
-        [RegularExpression("^([0-9]{10})$", ErrorMessage = "Invalid Phone number")]
         public string CustContactNumber { get; set; }
-
+    
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Booking> Bookings { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

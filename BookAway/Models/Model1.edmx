@@ -152,6 +152,12 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="HoelDisp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="checkin" Type="datetime" Mode="In" />
+          <Parameter Name="checkout" Type="datetime" Mode="In" />
+          <Parameter Name="dest" Type="nvarchar" Mode="In" />
+          <Parameter Name="room" Type="int" Mode="In" />
+        </Function>
         <Function Name="insertIntoBookin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="HId" Type="int" Mode="In" />
           <Parameter Name="CId" Type="int" Mode="In" />
@@ -372,6 +378,12 @@
             <Parameter Name="avRooms" Mode="InOut" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="userRoles" EntityType="BookAwayModel.userRole" />
+          <FunctionImport Name="HoelDisp" ReturnType="Collection(BookAwayModel.HoelDisp_Result)">
+            <Parameter Name="checkin" Mode="In" Type="DateTime" />
+            <Parameter Name="checkout" Mode="In" Type="DateTime" />
+            <Parameter Name="dest" Mode="In" Type="String" />
+            <Parameter Name="room" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="userRole">
           <Key>
@@ -381,6 +393,20 @@
           <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="userRole1" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
         </EntityType>
+        <ComplexType Name="HoelDisp_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="HotelName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="HotelAddress" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="HotelCity" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="HotelEmail" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="HotelContactNumber" Nullable="false" MaxLength="10" />
+          <Property Type="Int32" Name="TotalOfRooms" Nullable="true" />
+          <Property Type="Double" Name="RentPerRoom" Nullable="true" />
+          <Property Type="String" Name="HotelPic" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="HotelOwner" Nullable="true" />
+          <Property Type="Int32" Name="rooms" Nullable="true" />
+          <Property Type="Int32" Name="Id1" Nullable="false" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -472,6 +498,24 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="HoelDisp" FunctionName="BookAwayModel.Store.HoelDisp">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BookAwayModel.HoelDisp_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="HotelName" ColumnName="HotelName" />
+                <ScalarProperty Name="HotelAddress" ColumnName="HotelAddress" />
+                <ScalarProperty Name="HotelCity" ColumnName="HotelCity" />
+                <ScalarProperty Name="HotelEmail" ColumnName="HotelEmail" />
+                <ScalarProperty Name="HotelContactNumber" ColumnName="HotelContactNumber" />
+                <ScalarProperty Name="TotalOfRooms" ColumnName="TotalOfRooms" />
+                <ScalarProperty Name="RentPerRoom" ColumnName="RentPerRoom" />
+                <ScalarProperty Name="HotelPic" ColumnName="HotelPic" />
+                <ScalarProperty Name="HotelOwner" ColumnName="HotelOwner" />
+                <ScalarProperty Name="rooms" ColumnName="rooms" />
+                <ScalarProperty Name="Id1" ColumnName="Id1" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
