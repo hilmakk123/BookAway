@@ -97,6 +97,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="content\styles\HotelSide.css" />
     <Content Include="content\styles\SignUpStylecss.css" />
     <Content Include="Global.asax" />
     <Content Include="images\about_background.jpg" />
@@ -233,9 +234,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\BookingsController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HotelOwnerController.cs" />
     <Compile Include="Controllers\HotelsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -329,6 +331,11 @@
     <Content Include="Views\Customer\LoginCust.cshtml" />
     <Content Include="Views\Customer\Index.cshtml" />
     <Content Include="Views\Customer\Search.cshtml" />
+    <Content Include="Views\HotelOwner\LoginHotel.cshtml" />
+    <Content Include="Views\HotelOwner\Index.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\LoginAdminl.cshtml" />
+    <Content Include="Views\Shared\_LayoutHotel.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
