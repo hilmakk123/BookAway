@@ -10,17 +10,9 @@
 namespace BookAway.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Hotel
+    public partial class hotelDetailbyOwner_Result1
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Hotel()
-        {
-            this.Bookings = new HashSet<Booking>();
-            this.Reviews = new HashSet<Review>();
-        }
-    
         public int Id { get; set; }
         public string HotelName { get; set; }
         public string HotelAddress { get; set; }
@@ -31,11 +23,5 @@ namespace BookAway.Models
         public Nullable<double> RentPerRoom { get; set; }
         public string HotelPic { get; set; }
         public Nullable<int> HotelOwner { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Booking> Bookings { get; set; }
-        public virtual HotelOwner HotelOwner1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Review> Reviews { get; set; }
     }
 }

@@ -11,7 +11,7 @@ namespace BookAway.Models
 {
     using System;
     
-    public partial class HotelDisplay_Result
+    public partial class HoelDisplay_Result
     {
         public int Id { get; set; }
         public string HotelName { get; set; }
@@ -23,5 +23,7 @@ namespace BookAway.Models
         public Nullable<double> RentPerRoom { get; set; }
         public string HotelPic { get; set; }
         public Nullable<int> HotelOwner { get; set; }
+        public Nullable<int> rooms { get; set; }
+        public int Id1 { get; set; }
     }
 }

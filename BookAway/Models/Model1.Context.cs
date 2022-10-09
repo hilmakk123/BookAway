@@ -33,7 +33,32 @@ namespace BookAway.Models
         public virtual DbSet<Hotel> Hotels { get; set; }
         public virtual DbSet<HotelOwner> HotelOwners { get; set; }
         public virtual DbSet<Review> Reviews { get; set; }
-        public virtual DbSet<userRole> userRoles { get; set; }
+    
+        public virtual ObjectResult<disp_Result> disp()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<disp_Result>("disp");
+        }
+    
+        public virtual ObjectResult<HoelDisplay_Result> HoelDisplay(Nullable<System.DateTime> checkin, Nullable<System.DateTime> checkout, string dest, Nullable<int> room)
+        {
+            var checkinParameter = checkin.HasValue ?
+                new ObjectParameter("checkin", checkin) :
+                new ObjectParameter("checkin", typeof(System.DateTime));
+    
+            var checkoutParameter = checkout.HasValue ?
+                new ObjectParameter("checkout", checkout) :
+                new ObjectParameter("checkout", typeof(System.DateTime));
+    
+            var destParameter = dest != null ?
+                new ObjectParameter("dest", dest) :
+                new ObjectParameter("dest", typeof(string));
+    
+            var roomParameter = room.HasValue ?
+                new ObjectParameter("room", room) :
+                new ObjectParameter("room", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<HoelDisplay_Result>("HoelDisplay", checkinParameter, checkoutParameter, destParameter, roomParameter);
+        }
     
         public virtual int insertIntoBookin(Nullable<int> hId, Nullable<int> cId, Nullable<System.DateTime> checkIn, Nullable<System.DateTime> checkOut, Nullable<int> noofRoomsBooked, ObjectParameter bkRooms, ObjectParameter totRooms, ObjectParameter avRooms)
         {
@@ -60,7 +85,16 @@ namespace BookAway.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("insertIntoBookin", hIdParameter, cIdParameter, checkInParameter, checkOutParameter, noofRoomsBookedParameter, bkRooms, totRooms, avRooms);
         }
     
-        public virtual ObjectResult<Hotel> HoelDisp(Nullable<System.DateTime> checkin, Nullable<System.DateTime> checkout, string dest, Nullable<int> room)
+        public virtual ObjectResult<hotelDetailbyOwner_Result> hotelDetailbyOwner(Nullable<int> id)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<hotelDetailbyOwner_Result>("hotelDetailbyOwner", idParameter);
+        }
+    
+        public virtual ObjectResult<HoelDisplay_Result1> HoelDisp(Nullable<System.DateTime> checkin, Nullable<System.DateTime> checkout, string dest, Nullable<int> room)
         {
             var checkinParameter = checkin.HasValue ?
                 new ObjectParameter("checkin", checkin) :
@@ -78,54 +112,25 @@ namespace BookAway.Models
                 new ObjectParameter("room", room) :
                 new ObjectParameter("room", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Hotel>("HoelDisp", checkinParameter, checkoutParameter, destParameter, roomParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<HoelDisplay_Result1>("HoelDisp", checkinParameter, checkoutParameter, destParameter, roomParameter);
         }
     
-        public virtual ObjectResult<Hotel> HoelDisp(Nullable<System.DateTime> checkin, Nullable<System.DateTime> checkout, string dest, Nullable<int> room, MergeOption mergeOption)
+        public virtual ObjectResult<Booking> bookingDetailByOwner(Nullable<int> id)
         {
-            var checkinParameter = checkin.HasValue ?
-                new ObjectParameter("checkin", checkin) :
-                new ObjectParameter("checkin", typeof(System.DateTime));
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
     
-            var checkoutParameter = checkout.HasValue ?
-                new ObjectParameter("checkout", checkout) :
-                new ObjectParameter("checkout", typeof(System.DateTime));
-    
-            var destParameter = dest != null ?
-                new ObjectParameter("dest", dest) :
-                new ObjectParameter("dest", typeof(string));
-    
-            var roomParameter = room.HasValue ?
-                new ObjectParameter("room", room) :
-                new ObjectParameter("room", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Hotel>("HoelDisp", mergeOption, checkinParameter, checkoutParameter, destParameter, roomParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Booking>("bookingDetailByOwner", idParameter);
         }
     
-        public virtual ObjectResult<HotelDisplay_Result> HotelDisplay(Nullable<System.DateTime> checkin, Nullable<System.DateTime> checkout, string dest, Nullable<int> room)
+        public virtual ObjectResult<Booking> bookingDetailByOwner(Nullable<int> id, MergeOption mergeOption)
         {
-            var checkinParameter = checkin.HasValue ?
-                new ObjectParameter("checkin", checkin) :
-                new ObjectParameter("checkin", typeof(System.DateTime));
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
     
-            var checkoutParameter = checkout.HasValue ?
-                new ObjectParameter("checkout", checkout) :
-                new ObjectParameter("checkout", typeof(System.DateTime));
-    
-            var destParameter = dest != null ?
-                new ObjectParameter("dest", dest) :
-                new ObjectParameter("dest", typeof(string));
-    
-            var roomParameter = room.HasValue ?
-                new ObjectParameter("room", room) :
-                new ObjectParameter("room", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<HotelDisplay_Result>("HotelDisplay", checkinParameter, checkoutParameter, destParameter, roomParameter);
-        }
-    
-        public virtual ObjectResult<disp_Result> disp()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<disp_Result>("disp");
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Booking>("bookingDetailByOwner", mergeOption, idParameter);
         }
     }
 }

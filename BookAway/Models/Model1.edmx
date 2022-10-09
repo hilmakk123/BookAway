@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="BookAwayModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="BookAwayModel1.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AdminLogin">
           <Key>
             <PropertyRef Name="Id" />
@@ -73,14 +73,6 @@
           <Property Name="HotelId" Type="int" />
           <Property Name="Content" Type="nvarchar" MaxLength="200" />
           <Property Name="Rating" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="userRole">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="username" Type="nvarchar" MaxLength="50" />
-          <Property Name="userRole" Type="nvarchar" MaxLength="10" />
         </EntityType>
         <Association Name="FK__Booking__CustId__403A8C7D">
           <End Role="Customers" Type="Self.Customers" Multiplicity="0..1">
@@ -152,12 +144,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="bookingDetailByOwner" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
         <Function Name="disp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="HoelDisp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="checkin" Type="datetime" Mode="In" />
           <Parameter Name="checkout" Type="datetime" Mode="In" />
           <Parameter Name="dest" Type="nvarchar" Mode="In" />
           <Parameter Name="room" Type="int" Mode="In" />
+        </Function>
+        <Function Name="hotelDetailbyOwner" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
         </Function>
         <Function Name="insertIntoBookin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="HId" Type="int" Mode="In" />
@@ -169,14 +167,13 @@
           <Parameter Name="totRooms" Type="int" Mode="InOut" />
           <Parameter Name="avRooms" Type="int" Mode="InOut" />
         </Function>
-        <EntityContainer Name="BookAwayModelStoreContainer">
+        <EntityContainer Name="BookAwayModel1StoreContainer">
           <EntitySet Name="AdminLogin" EntityType="Self.AdminLogin" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Booking" EntityType="Self.Booking" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Hotel" EntityType="Self.Hotel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HotelOwners" EntityType="Self.HotelOwners" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Review" EntityType="Self.Review" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="userRole" EntityType="Self.userRole" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__Booking__CustId__403A8C7D" Association="Self.FK__Booking__CustId__403A8C7D">
             <End Role="Customers" EntitySet="Customers" />
             <End Role="Booking" EntitySet="Booking" />
@@ -201,7 +198,7 @@
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="BookAwayModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="BookAwayModel1" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="AdminLogin">
           <Key>
             <PropertyRef Name="Id" />
@@ -221,8 +218,8 @@
           <Property Name="CheckOut" Type="DateTime" Precision="0" />
           <Property Name="NOfRooms" Type="Int32" />
           <Property Name="TotalAmount" Type="Double" />
-          <NavigationProperty Name="Customer" Relationship="Self.FK__Booking__CustId__398D8EEE" FromRole="Booking" ToRole="Customers" />
-          <NavigationProperty Name="Hotel" Relationship="Self.FK__Booking__HotelId__38996AB5" FromRole="Booking" ToRole="Hotel" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK__Booking__CustId__403A8C7D" FromRole="Booking" ToRole="Customers" />
+          <NavigationProperty Name="Hotel" Relationship="Self.FK__Booking__HotelId__3F466844" FromRole="Booking" ToRole="Hotel" />
         </EntityType>
         <EntityType Name="Customer">
           <Key>
@@ -235,8 +232,8 @@
           <Property Name="CustLastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="CustEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="CustContactNumber" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Bookings" Relationship="Self.FK__Booking__CustId__398D8EEE" FromRole="Customers" ToRole="Booking" />
-          <NavigationProperty Name="Reviews" Relationship="Self.FK__Review__CustId__3C69FB99" FromRole="Customers" ToRole="Review" />
+          <NavigationProperty Name="Bookings" Relationship="Self.FK__Booking__CustId__403A8C7D" FromRole="Customers" ToRole="Booking" />
+          <NavigationProperty Name="Reviews" Relationship="Self.FK__Review__CustId__4316F928" FromRole="Customers" ToRole="Review" />
         </EntityType>
         <EntityType Name="Hotel">
           <Key>
@@ -245,16 +242,16 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="HotelName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="HotelAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="HotelCity" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="HotelEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="HotelContactNumber" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="TotalOfRooms" Type="Int32" />
           <Property Name="RentPerRoom" Type="Double" />
           <Property Name="HotelPic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="HotelOwner" Type="Int32" />
-          <Property Name="HotelCity" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Bookings" Relationship="Self.FK__Booking__HotelId__38996AB5" FromRole="Hotel" ToRole="Booking" />
-          <NavigationProperty Name="HotelOwner1" Relationship="Self.FK__Hotel__HotelOwne__35BCFE0A" FromRole="Hotel" ToRole="HotelOwners" />
-          <NavigationProperty Name="Reviews" Relationship="Self.FK__Review__HotelId__3D5E1FD2" FromRole="Hotel" ToRole="Review" />
+          <NavigationProperty Name="Bookings" Relationship="Self.FK__Booking__HotelId__3F466844" FromRole="Hotel" ToRole="Booking" />
+          <NavigationProperty Name="HotelOwner1" Relationship="Self.FK__Hotel__HotelOwne__3C69FB99" FromRole="Hotel" ToRole="HotelOwners" />
+          <NavigationProperty Name="Reviews" Relationship="Self.FK__Review__HotelId__440B1D61" FromRole="Hotel" ToRole="Review" />
         </EntityType>
         <EntityType Name="HotelOwner">
           <Key>
@@ -267,7 +264,7 @@
           <Property Name="HOwnerLastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="HOwnerEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="HOwnerContactNumber" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Hotels" Relationship="Self.FK__Hotel__HotelOwne__35BCFE0A" FromRole="HotelOwners" ToRole="Hotel" />
+          <NavigationProperty Name="Hotels" Relationship="Self.FK__Hotel__HotelOwne__3C69FB99" FromRole="HotelOwners" ToRole="Hotel" />
         </EntityType>
         <EntityType Name="Review">
           <Key>
@@ -278,11 +275,13 @@
           <Property Name="HotelId" Type="Int32" />
           <Property Name="Content" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="Rating" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Customer" Relationship="Self.FK__Review__CustId__3C69FB99" FromRole="Review" ToRole="Customers" />
-          <NavigationProperty Name="Hotel" Relationship="Self.FK__Review__HotelId__3D5E1FD2" FromRole="Review" ToRole="Hotel" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK__Review__CustId__4316F928" FromRole="Review" ToRole="Customers" />
+          <NavigationProperty Name="Hotel" Relationship="Self.FK__Review__HotelId__440B1D61" FromRole="Review" ToRole="Hotel" />
         </EntityType>
-        <Association Name="FK__Booking__CustId__398D8EEE">
-          <End Role="Customers" Type="Self.Customer" Multiplicity="0..1" />
+        <Association Name="FK__Booking__CustId__403A8C7D">
+          <End Role="Customers" Type="Self.Customer" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Customers">
@@ -293,8 +292,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Booking__HotelId__38996AB5">
-          <End Role="Hotel" Type="Self.Hotel" Multiplicity="0..1" />
+        <Association Name="FK__Booking__HotelId__3F466844">
+          <End Role="Hotel" Type="Self.Hotel" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Hotel">
@@ -305,8 +306,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Review__CustId__3C69FB99">
-          <End Role="Customers" Type="Self.Customer" Multiplicity="0..1" />
+        <Association Name="FK__Review__CustId__4316F928">
+          <End Role="Customers" Type="Self.Customer" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Review" Type="Self.Review" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Customers">
@@ -317,8 +320,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Hotel__HotelOwne__35BCFE0A">
-          <End Role="HotelOwners" Type="Self.HotelOwner" Multiplicity="0..1" />
+        <Association Name="FK__Hotel__HotelOwne__3C69FB99">
+          <End Role="HotelOwners" Type="Self.HotelOwner" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Hotel" Type="Self.Hotel" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="HotelOwners">
@@ -329,8 +334,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Review__HotelId__3D5E1FD2">
-          <End Role="Hotel" Type="Self.Hotel" Multiplicity="0..1" />
+        <Association Name="FK__Review__HotelId__440B1D61">
+          <End Role="Hotel" Type="Self.Hotel" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Review" Type="Self.Review" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Hotel">
@@ -348,26 +355,33 @@
           <EntitySet Name="Hotels" EntityType="Self.Hotel" />
           <EntitySet Name="HotelOwners" EntityType="Self.HotelOwner" />
           <EntitySet Name="Reviews" EntityType="Self.Review" />
-          <AssociationSet Name="FK__Booking__CustId__398D8EEE" Association="Self.FK__Booking__CustId__398D8EEE">
+          <AssociationSet Name="FK__Booking__CustId__403A8C7D" Association="Self.FK__Booking__CustId__403A8C7D">
             <End Role="Customers" EntitySet="Customers" />
             <End Role="Booking" EntitySet="Bookings" />
           </AssociationSet>
-          <AssociationSet Name="FK__Booking__HotelId__38996AB5" Association="Self.FK__Booking__HotelId__38996AB5">
+          <AssociationSet Name="FK__Booking__HotelId__3F466844" Association="Self.FK__Booking__HotelId__3F466844">
             <End Role="Hotel" EntitySet="Hotels" />
             <End Role="Booking" EntitySet="Bookings" />
           </AssociationSet>
-          <AssociationSet Name="FK__Review__CustId__3C69FB99" Association="Self.FK__Review__CustId__3C69FB99">
+          <AssociationSet Name="FK__Review__CustId__4316F928" Association="Self.FK__Review__CustId__4316F928">
             <End Role="Customers" EntitySet="Customers" />
             <End Role="Review" EntitySet="Reviews" />
           </AssociationSet>
-          <AssociationSet Name="FK__Hotel__HotelOwne__35BCFE0A" Association="Self.FK__Hotel__HotelOwne__35BCFE0A">
+          <AssociationSet Name="FK__Hotel__HotelOwne__3C69FB99" Association="Self.FK__Hotel__HotelOwne__3C69FB99">
             <End Role="HotelOwners" EntitySet="HotelOwners" />
             <End Role="Hotel" EntitySet="Hotels" />
           </AssociationSet>
-          <AssociationSet Name="FK__Review__HotelId__3D5E1FD2" Association="Self.FK__Review__HotelId__3D5E1FD2">
+          <AssociationSet Name="FK__Review__HotelId__440B1D61" Association="Self.FK__Review__HotelId__440B1D61">
             <End Role="Hotel" EntitySet="Hotels" />
             <End Role="Review" EntitySet="Reviews" />
           </AssociationSet>
+          <FunctionImport Name="disp" ReturnType="Collection(BookAwayModel1.disp_Result)" />
+          <FunctionImport Name="HoelDisplay" ReturnType="Collection(BookAwayModel1.HoelDisplay_Result)">
+            <Parameter Name="checkin" Mode="In" Type="DateTime" />
+            <Parameter Name="checkout" Mode="In" Type="DateTime" />
+            <Parameter Name="dest" Mode="In" Type="String" />
+            <Parameter Name="room" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="insertIntoBookin">
             <Parameter Name="HId" Mode="In" Type="Int32" />
             <Parameter Name="CId" Mode="In" Type="Int32" />
@@ -378,29 +392,31 @@
             <Parameter Name="totRooms" Mode="InOut" Type="Int32" />
             <Parameter Name="avRooms" Mode="InOut" Type="Int32" />
           </FunctionImport>
-          <EntitySet Name="userRoles" EntityType="BookAwayModel.userRole" />
-          <FunctionImport Name="HoelDisp" EntitySet="Hotels" ReturnType="Collection(BookAwayModel.Hotel)">
+          <FunctionImport Name="hotelDetailbyOwner" ReturnType="Collection(BookAwayModel1.hotelDetailbyOwner_Result)">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="HoelDisp" ReturnType="Collection(BookAwayModel1.HoelDisplay_Result1)">
             <Parameter Name="checkin" Mode="In" Type="DateTime" />
             <Parameter Name="checkout" Mode="In" Type="DateTime" />
             <Parameter Name="dest" Mode="In" Type="String" />
             <Parameter Name="room" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="HotelDisplay" ReturnType="Collection(BookAwayModel.HotelDisplay_Result)">
-            <Parameter Name="checkin" Mode="In" Type="DateTime" />
-            <Parameter Name="checkout" Mode="In" Type="DateTime" />
-            <Parameter Name="dest" Mode="In" Type="String" />
-            <Parameter Name="room" Mode="In" Type="Int32" />
+          <FunctionImport Name="bookingDetailByOwner" EntitySet="Bookings" ReturnType="Collection(BookAwayModel1.Booking)">
+            <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="disp" ReturnType="Collection(BookAwayModel.disp_Result)" />
         </EntityContainer>
-        <EntityType Name="userRole">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="userRole1" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-        </EntityType>
+        <ComplexType Name="disp_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="HotelName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="HotelAddress" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="HotelCity" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="HotelEmail" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="HotelContactNumber" Nullable="false" MaxLength="10" />
+          <Property Type="Int32" Name="TotalOfRooms" Nullable="true" />
+          <Property Type="Double" Name="RentPerRoom" Nullable="true" />
+          <Property Type="String" Name="HotelPic" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="HotelOwner" Nullable="true" />
+        </ComplexType>
         <ComplexType Name="HoelDisp_Result">
           <Property Type="Int32" Name="Id" Nullable="false" />
           <Property Type="String" Name="HotelName" Nullable="false" MaxLength="50" />
@@ -415,7 +431,7 @@
           <Property Type="Int32" Name="rooms" Nullable="true" />
           <Property Type="Int32" Name="Id1" Nullable="false" />
         </ComplexType>
-        <ComplexType Name="HotelDisplay_Result">
+        <ComplexType Name="hotelDetailbyOwner_Result">
           <Property Type="Int32" Name="Id" Nullable="false" />
           <Property Type="String" Name="HotelName" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="HotelAddress" Nullable="true" MaxLength="50" />
@@ -427,8 +443,55 @@
           <Property Type="String" Name="HotelPic" Nullable="true" MaxLength="50" />
           <Property Type="Int32" Name="HotelOwner" Nullable="true" />
         </ComplexType>
-        <ComplexType Name="disp_Result">
+        <ComplexType Name="hotelDetailbyOwner_Result1">
           <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="HotelName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="HotelAddress" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="HotelCity" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="HotelEmail" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="HotelContactNumber" Nullable="false" MaxLength="10" />
+          <Property Type="Int32" Name="TotalOfRooms" Nullable="true" />
+          <Property Type="Double" Name="RentPerRoom" Nullable="true" />
+          <Property Type="String" Name="HotelPic" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="HotelOwner" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="HoelDisplay_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="HotelName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="HotelAddress" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="HotelCity" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="HotelEmail" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="HotelContactNumber" Nullable="false" MaxLength="10" />
+          <Property Type="Int32" Name="TotalOfRooms" Nullable="true" />
+          <Property Type="Double" Name="RentPerRoom" Nullable="true" />
+          <Property Type="String" Name="HotelPic" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="HotelOwner" Nullable="true" />
+          <Property Type="Int32" Name="rooms" Nullable="true" />
+          <Property Type="Int32" Name="Id1" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="HoelDisplay_Result1">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="HotelName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="HotelAddress" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="HotelCity" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="HotelEmail" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="HotelContactNumber" Nullable="false" MaxLength="10" />
+          <Property Type="Int32" Name="TotalOfRooms" Nullable="true" />
+          <Property Type="Double" Name="RentPerRoom" Nullable="true" />
+          <Property Type="String" Name="HotelPic" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="HotelOwner" Nullable="true" />
+          <Property Type="Int32" Name="rooms" Nullable="true" />
+          <Property Type="Int32" Name="Id1" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="bookingDetailByOwner_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="Int32" Name="HotelId" Nullable="true" />
+          <Property Type="Int32" Name="CustId" Nullable="true" />
+          <Property Type="DateTime" Name="CheckIn" Nullable="true" />
+          <Property Type="DateTime" Name="CheckOut" Nullable="true" />
+          <Property Type="Int32" Name="NOfRooms" Nullable="true" />
+          <Property Type="Double" Name="TotalAmount" Nullable="true" />
+          <Property Type="Int32" Name="Id1" Nullable="false" />
           <Property Type="String" Name="HotelName" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="HotelAddress" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="HotelCity" Nullable="true" MaxLength="50" />
@@ -444,9 +507,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="BookAwayModelStoreContainer" CdmEntityContainer="BookAwayEntities">
+        <EntityContainerMapping StorageEntityContainer="BookAwayModel1StoreContainer" CdmEntityContainer="BookAwayEntities">
           <EntitySetMapping Name="AdminLogins">
-            <EntityTypeMapping TypeName="BookAwayModel.AdminLogin">
+            <EntityTypeMapping TypeName="BookAwayModel1.AdminLogin">
               <MappingFragment StoreEntitySet="AdminLogin">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="AdminUsername" ColumnName="AdminUsername" />
@@ -455,7 +518,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Bookings">
-            <EntityTypeMapping TypeName="BookAwayModel.Booking">
+            <EntityTypeMapping TypeName="BookAwayModel1.Booking">
               <MappingFragment StoreEntitySet="Booking">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="HotelId" ColumnName="HotelId" />
@@ -468,7 +531,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Customers">
-            <EntityTypeMapping TypeName="BookAwayModel.Customer">
+            <EntityTypeMapping TypeName="BookAwayModel1.Customer">
               <MappingFragment StoreEntitySet="Customers">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="CustUsername" ColumnName="CustUsername" />
@@ -481,23 +544,23 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Hotels">
-            <EntityTypeMapping TypeName="BookAwayModel.Hotel">
+            <EntityTypeMapping TypeName="BookAwayModel1.Hotel">
               <MappingFragment StoreEntitySet="Hotel">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="HotelName" ColumnName="HotelName" />
                 <ScalarProperty Name="HotelAddress" ColumnName="HotelAddress" />
+                <ScalarProperty Name="HotelCity" ColumnName="HotelCity" />
                 <ScalarProperty Name="HotelEmail" ColumnName="HotelEmail" />
                 <ScalarProperty Name="HotelContactNumber" ColumnName="HotelContactNumber" />
                 <ScalarProperty Name="TotalOfRooms" ColumnName="TotalOfRooms" />
                 <ScalarProperty Name="RentPerRoom" ColumnName="RentPerRoom" />
                 <ScalarProperty Name="HotelPic" ColumnName="HotelPic" />
                 <ScalarProperty Name="HotelOwner" ColumnName="HotelOwner" />
-                <ScalarProperty Name="HotelCity" ColumnName="HotelCity" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="HotelOwners">
-            <EntityTypeMapping TypeName="BookAwayModel.HotelOwner">
+            <EntityTypeMapping TypeName="BookAwayModel1.HotelOwner">
               <MappingFragment StoreEntitySet="HotelOwners">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="HOwnerUsername" ColumnName="HOwnerUsername" />
@@ -510,7 +573,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Reviews">
-            <EntityTypeMapping TypeName="BookAwayModel.Review">
+            <EntityTypeMapping TypeName="BookAwayModel1.Review">
               <MappingFragment StoreEntitySet="Review">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="CustId" ColumnName="CustId" />
@@ -520,21 +583,9 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="insertIntoBookin" FunctionName="BookAwayModel.Store.insertIntoBookin" />
-          <EntitySetMapping Name="userRoles">
-            <EntityTypeMapping TypeName="BookAwayModel.userRole">
-              <MappingFragment StoreEntitySet="userRole">
-                <ScalarProperty Name="userRole1" ColumnName="userRole" />
-                <ScalarProperty Name="username" ColumnName="username" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="HoelDisp" FunctionName="BookAwayModel.Store.HoelDisp">
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="HotelDisplay" FunctionName="BookAwayModel.Store.HoelDisp">
+          <FunctionImportMapping FunctionImportName="disp" FunctionName="BookAwayModel1.Store.disp">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="BookAwayModel.HotelDisplay_Result">
+              <ComplexTypeMapping TypeName="BookAwayModel1.disp_Result">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="HotelName" ColumnName="HotelName" />
                 <ScalarProperty Name="HotelAddress" ColumnName="HotelAddress" />
@@ -548,9 +599,28 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="disp" FunctionName="BookAwayModel.Store.disp">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="BookAwayModel.disp_Result">
+          <FunctionImportMapping FunctionImportName="HoelDisplay" FunctionName="BookAwayModel1.Store.HoelDisp">
+          <ResultMapping>
+              <ComplexTypeMapping TypeName="BookAwayModel1.HoelDisplay_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="HotelName" ColumnName="HotelName" />
+                <ScalarProperty Name="HotelAddress" ColumnName="HotelAddress" />
+                <ScalarProperty Name="HotelCity" ColumnName="HotelCity" />
+                <ScalarProperty Name="HotelEmail" ColumnName="HotelEmail" />
+                <ScalarProperty Name="HotelContactNumber" ColumnName="HotelContactNumber" />
+                <ScalarProperty Name="TotalOfRooms" ColumnName="TotalOfRooms" />
+                <ScalarProperty Name="RentPerRoom" ColumnName="RentPerRoom" />
+                <ScalarProperty Name="HotelPic" ColumnName="HotelPic" />
+                <ScalarProperty Name="HotelOwner" ColumnName="HotelOwner" />
+                <ScalarProperty Name="rooms" ColumnName="rooms" />
+                <ScalarProperty Name="Id1" ColumnName="Id1" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="insertIntoBookin" FunctionName="BookAwayModel1.Store.insertIntoBookin" />
+          <FunctionImportMapping FunctionImportName="hotelDetailbyOwner" FunctionName="BookAwayModel1.Store.hotelDetailbyOwner">
+          <ResultMapping>
+              <ComplexTypeMapping TypeName="BookAwayModel1.hotelDetailbyOwner_Result">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="HotelName" ColumnName="HotelName" />
                 <ScalarProperty Name="HotelAddress" ColumnName="HotelAddress" />
@@ -563,6 +633,26 @@
                 <ScalarProperty Name="HotelOwner" ColumnName="HotelOwner" />
               </ComplexTypeMapping>
             </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="HoelDisp" FunctionName="BookAwayModel1.Store.HoelDisp">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BookAwayModel1.HoelDisplay_Result1">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="HotelName" ColumnName="HotelName" />
+                <ScalarProperty Name="HotelAddress" ColumnName="HotelAddress" />
+                <ScalarProperty Name="HotelCity" ColumnName="HotelCity" />
+                <ScalarProperty Name="HotelEmail" ColumnName="HotelEmail" />
+                <ScalarProperty Name="HotelContactNumber" ColumnName="HotelContactNumber" />
+                <ScalarProperty Name="TotalOfRooms" ColumnName="TotalOfRooms" />
+                <ScalarProperty Name="RentPerRoom" ColumnName="RentPerRoom" />
+                <ScalarProperty Name="HotelPic" ColumnName="HotelPic" />
+                <ScalarProperty Name="HotelOwner" ColumnName="HotelOwner" />
+                <ScalarProperty Name="rooms" ColumnName="rooms" />
+                <ScalarProperty Name="Id1" ColumnName="Id1" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="bookingDetailByOwner" FunctionName="BookAwayModel1.Store.bookingDetailByOwner">
           </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>

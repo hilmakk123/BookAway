@@ -1,10 +1,13 @@
 ﻿using BookAway.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using static System.Net.WebRequestMethods;
 
 namespace BookAway.Controllers
 {
@@ -18,6 +21,7 @@ namespace BookAway.Controllers
         {   // var std = studentList.Where(s => s.StudentId == Id)
             //User.Identity.ToString();
             HotelOwner owner = entities.HotelOwners.SingleOrDefault(o => o.HOwnerUsername == uname);
+            Hotel hotel =(Hotel) entities.Hotels.Select(x => x.Id == owner.Id);
             ViewBag.id = owner.Id;
             return View();
         }
@@ -31,12 +35,22 @@ namespace BookAway.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Insert(Hotel hotel)
+        public ActionResult Insert(Hotel hotel,HttpPostedFileBase file)
         {
             HotelOwner owner = entities.HotelOwners.SingleOrDefault(o => o.HOwnerUsername == uname);
             if (ModelState.IsValid)
 
             {
+                string _FileName = "";
+                if (file!=null && file.ContentLength>0)
+                {
+                    _FileName = Path.GetFileName(file.FileName);
+                    string _path = Path.Combine(Server.MapPath("~/UploadedFiles"), _FileName);
+                    hotel.HotelPic = "~/UploadedFiles" + _FileName;
+                    file.SaveAs(_path);
+                    
+                }
+                
                 hotel.HotelOwner = owner.Id;
                 entities.Hotels.Add(hotel);
                 entities.SaveChanges();
@@ -80,6 +94,7 @@ namespace BookAway.Controllers
                     FormsAuthentication.SetAuthCookie(ho.HOwnerUsername, false);
                     uname = ho.HOwnerUsername;
                     TempData["user"] = "cust";
+                    TempData["Id"] = entities.HotelOwners.SingleOrDefault(x => x.HOwnerUsername == ho.HOwnerUsername).Id;
                     return RedirectToAction("Insert", "HotelOwner");
                 }
 
@@ -99,5 +114,26 @@ namespace BookAway.Controllers
             FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Home");
         }
+        [Authorize]
+        public ActionResult DisplayBooking()
+        {
+            HotelOwner owner = entities.HotelOwners.SingleOrDefault(o => o.HOwnerUsername == uname);
+            int id = (int)TempData["Id"];
+            var booking = entities.bookingDetailByOwner(id);
+            return View(booking.ToList());
+        }
+        [HttpPost]
+        public ActionResult DisplayBooking(DateTime? dateTime)
+        {
+            HotelOwner owner = entities.HotelOwners.SingleOrDefault(o => o.HOwnerUsername == uname);
+            int id = owner.Id;
+            var booking = entities.bookingDetailByOwner(id);
+            var bookingDetail = booking.Where(x => x.CheckIn == dateTime);
+            //if(bookingDetail != null)   
+                return View(bookingDetail.ToList());
+            //else
+            //    return View(booking.ToList());
+        }
+
     }
 }

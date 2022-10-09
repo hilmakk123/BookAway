@@ -96,8 +96,9 @@ namespace BookAway.Controllers
             //sql.Open();
             //sdr = cmd.ExecuteReader();
             //sd
-            
-            var hotels = entities.HotelDisplay(search.CheckIn, search.CheckOut, search.Detsination, search.Rooms);
+            BookAwayEntities e1 = new BookAwayEntities();
+           
+            var hotels = entities.HoelDisplay(search.CheckIn, search.CheckOut, search.Detsination, search.Rooms);
           
             return View(hotels.ToList());
         }
