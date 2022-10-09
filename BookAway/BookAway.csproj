@@ -97,6 +97,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="content\js\Hotel_custome.js" />
     <Content Include="content\styles\HotelSide.css" />
     <Content Include="content\styles\SignUpStylecss.css" />
     <Content Include="Global.asax" />
@@ -282,6 +283,7 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Login.cs" />
+    <Compile Include="Models\LoginHotelOwner.cs" />
     <Compile Include="Models\Model1.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -331,11 +333,21 @@
     <Content Include="Views\Customer\LoginCust.cshtml" />
     <Content Include="Views\Customer\Index.cshtml" />
     <Content Include="Views\Customer\Search.cshtml" />
-    <Content Include="Views\HotelOwner\LoginHotel.cshtml" />
     <Content Include="Views\HotelOwner\Index.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
-    <Content Include="Views\Admin\LoginAdminl.cshtml" />
     <Content Include="Views\Shared\_LayoutHotel.cshtml" />
+    <Content Include="Views\Shared\_LayoutPage2.cshtml" />
+    <Content Include="Views\Admin\LoginCust.cshtml" />
+    <Content Include="Views\Shared\_LayoutPage3.cshtml" />
+    <Content Include="Views\HotelOwner\Insert.cshtml" />
+    <Content Include="Views\HotelOwner\LoginCust.cshtml" />
+    <Content Include="Views\HotelOwner\SignUp.cshtml" />
+    <Content Include="Views\Bookings\Create.cshtml" />
+    <Content Include="Views\Bookings\Delete.cshtml" />
+    <Content Include="Views\Bookings\Details.cshtml" />
+    <Content Include="Views\Bookings\Edit.cshtml" />
+    <Content Include="Views\Bookings\Index.cshtml" />
+    <Content Include="Views\Admin\Delete.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

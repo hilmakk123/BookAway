@@ -50,8 +50,8 @@
                                 </ul>
                             </div>
                             <div class="user_box ml-auto">
-                                <div class="user_box_login user_box_link"> @Html.ActionLink("Log In as Hotel Owner", "LoginHotel","HotelOwner")</div>
-                                <div class="user_box_register user_box_link"><a href="~/#">Log In as Admin</a></div>
+                                <div class="user_box_login user_box_link">@Html.ActionLink("Login as Hotel Owner", "LoginCust", "HotelOwner")</div>
+                                <div class="user_box_register user_box_link">@Html.ActionLink("Login as Admin", "LoginCust", "Admin")</div>
                             </div>
                         </div>
                     </div>
@@ -79,7 +79,7 @@
                                     @if (User.Identity.IsAuthenticated)
                                     {
                                         <li class="main_nav_item">@Html.ActionLink("Logout", "LogOutCust", "Customer")</li>
-                                        <li>@User.Identity.ToString()</li>
+                                        <li class="main_nav_item">@User.Identity.Name</li>
                                     }
                                     else
                                     {
