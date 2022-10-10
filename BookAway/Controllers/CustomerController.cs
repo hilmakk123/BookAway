@@ -96,11 +96,11 @@ namespace BookAway.Controllers
             //sql.Open();
             //sdr = cmd.ExecuteReader();
             //sd
-            BookAwayEntities e1 = new BookAwayEntities();
-           
-            var hotels = entities.HoelDisplay(search.CheckIn, search.CheckOut, search.Detsination, search.Rooms);
-          
+            var hotels = entities.Hotels.Where(x=>x.HotelCity==search.Detsination);
             return View(hotels.ToList());
+            //  var hotels = entities.HoelDisplay(search.CheckIn, search.CheckOut, search.Detsination, search.Rooms);
+
+          
         }
         public ActionResult Book()
         {
