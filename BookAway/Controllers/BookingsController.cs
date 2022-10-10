@@ -10,112 +10,116 @@ using BookAway.Models;
 
 namespace BookAway.Controllers
 {
-    public class HotelsController : Controller
+    public class BookingsController : Controller
     {
         private BookAwayEntities db = new BookAwayEntities();
 
-        // GET: Hotels
+        // GET: Bookings
         public ActionResult Index()
         {
-            var hotels = db.Hotels.Include(h => h.HotelOwner1);
-            return View(hotels.ToList());
+            var bookings = db.Bookings.Include(b => b.Customer).Include(b => b.Hotel);
+            return View(bookings.ToList());
         }
 
-        // GET: Hotels/Details/5
+        // GET: Bookings/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Hotel hotel = db.Hotels.Find(id);
-            if (hotel == null)
+            Booking booking = db.Bookings.Find(id);
+            if (booking == null)
             {
                 return HttpNotFound();
             }
-            return View(hotel);
+            return View(booking);
         }
 
-        // GET: Hotels/Create
+        // GET: Bookings/Create
         public ActionResult Create()
         {
-            ViewBag.HotelOwner = new SelectList(db.HotelOwners, "Id", "HOwnerUsername");
+            ViewBag.CustId = new SelectList(db.Customers, "Id", "CustUsername");
+            ViewBag.HotelId = new SelectList(db.Hotels, "Id", "HotelName");
             return View();
         }
 
-        // POST: Hotels/Create
+        // POST: Bookings/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,HotelName,HotelAddress,HotelEmail,HotelContactNumber,TotalOfRooms,RentPerRoom,HotelPic,HotelOwner,HotelCity")] Hotel hotel)
+        public ActionResult Create([Bind(Include = "Id,HotelId,CustId,CheckIn,CheckOut,NOfRooms,TotalAmount")] Booking booking)
         {
             if (ModelState.IsValid)
             {
-                db.Hotels.Add(hotel);
+                db.Bookings.Add(booking);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.HotelOwner = new SelectList(db.HotelOwners, "Id", "HOwnerUsername", hotel.HotelOwner);
-            return View(hotel);
+            ViewBag.CustId = new SelectList(db.Customers, "Id", "CustUsername", booking.CustId);
+            ViewBag.HotelId = new SelectList(db.Hotels, "Id", "HotelName", booking.HotelId);
+            return View(booking);
         }
 
-        // GET: Hotels/Edit/5
+        // GET: Bookings/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Hotel hotel = db.Hotels.Find(id);
-            if (hotel == null)
+            Booking booking = db.Bookings.Find(id);
+            if (booking == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.HotelOwner = new SelectList(db.HotelOwners, "Id", "HOwnerUsername", hotel.HotelOwner);
-            return View(hotel);
+            ViewBag.CustId = new SelectList(db.Customers, "Id", "CustUsername", booking.CustId);
+            ViewBag.HotelId = new SelectList(db.Hotels, "Id", "HotelName", booking.HotelId);
+            return View(booking);
         }
 
-        // POST: Hotels/Edit/5
+        // POST: Bookings/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,HotelName,HotelAddress,HotelEmail,HotelContactNumber,TotalOfRooms,RentPerRoom,HotelPic,HotelOwner,HotelCity")] Hotel hotel)
+        public ActionResult Edit([Bind(Include = "Id,HotelId,CustId,CheckIn,CheckOut,NOfRooms,TotalAmount")] Booking booking)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(hotel).State = EntityState.Modified;
+                db.Entry(booking).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.HotelOwner = new SelectList(db.HotelOwners, "Id", "HOwnerUsername", hotel.HotelOwner);
-            return View(hotel);
+            ViewBag.CustId = new SelectList(db.Customers, "Id", "CustUsername", booking.CustId);
+            ViewBag.HotelId = new SelectList(db.Hotels, "Id", "HotelName", booking.HotelId);
+            return View(booking);
         }
 
-        // GET: Hotels/Delete/5
+        // GET: Bookings/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Hotel hotel = db.Hotels.Find(id);
-            if (hotel == null)
+            Booking booking = db.Bookings.Find(id);
+            if (booking == null)
             {
                 return HttpNotFound();
             }
-            return View(hotel);
+            return View(booking);
         }
 
-        // POST: Hotels/Delete/5
+        // POST: Bookings/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Hotel hotel = db.Hotels.Find(id);
-            db.Hotels.Remove(hotel);
+            Booking booking = db.Bookings.Find(id);
+            db.Bookings.Remove(booking);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

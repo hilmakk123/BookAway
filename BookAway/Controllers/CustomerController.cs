@@ -102,6 +102,37 @@ namespace BookAway.Controllers
           
             return View(hotels.ToList());
         }
+        public ActionResult Book()
+        {
+            //ViewBag.Hotels = new SelectList(entities.Hotels, "Id", "HotelName");
+
+
+
+            //var hotels = new SelectList(entities.Hotels, "Id", "HotelName");
+
+
+
+            //var hotels = entities.Hotels.Select(x => x.HotelName).ToList();
+            //ViewData["hotelList"] = hotels;
+
+            ViewBag.HotelId = new SelectList(entities.Hotels, "Id", "HotelName");
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Book([Bind(Include = "HotelId,CheckIn,CheckOut,NOfRooms")] Booking entry)
+        {
+            //ViewBag.Hotels = new SelectList(entities.Hotels, "Id", "HotelName");
+            Customer cust = entities.Customers.SingleOrDefault(c => c.CustUsername == User.Identity.Name);
+            entry.CustId = cust.Id;
+          
+
+            entities.Bookings.Add(entry);
+            entities.SaveChanges();
+            ViewBag.HotelId = new SelectList(entities.Hotels, "Id", "HotelName", entry.HotelId);
+
+            Response.Write(@"<script>alert('Booking successfull');</script>");
+            return View();
+        }
 
     }
 }

@@ -71,11 +71,11 @@
                                 <ul class="main_nav_list">
                                     <li class="main_nav_item">@Html.ActionLink("Home", "Index", "Home")</li>
 
-                               
+
                                     <li class="main_nav_item">@Html.ActionLink("About", "About", "Home")</li>
+                                    <li class="main_nav_item">@Html.ActionLink("Book", "Book", "Customer")</li>
 
-
-                                    <li class="main_nav_item"><a href="~/contact.html">contact</a></li>
+                                   
                                     @if (User.Identity.IsAuthenticated)
                                     {
                                         <li class="main_nav_item">@Html.ActionLink("Logout", "LogOutCust", "Customer")</li>

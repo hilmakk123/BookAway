@@ -20,9 +20,9 @@ namespace BookAway.Controllers
         public ActionResult Index()
         {   // var std = studentList.Where(s => s.StudentId == Id)
             //User.Identity.ToString();
-            HotelOwner owner = entities.HotelOwners.SingleOrDefault(o => o.HOwnerUsername == uname);
-            Hotel hotel =(Hotel) entities.Hotels.Select(x => x.Id == owner.Id);
-            ViewBag.id = owner.Id;
+            //HotelOwner owner = entities.HotelOwners.SingleOrDefault(o => o.HOwnerUsername == uname);
+            //Hotel hotel =(Hotel) entities.Hotels.Select(x => x.Id == owner.Id);
+            //ViewBag.id = owner.Id;
             return View();
         }
 
@@ -118,7 +118,7 @@ namespace BookAway.Controllers
         public ActionResult DisplayBooking()
         {
             HotelOwner owner = entities.HotelOwners.SingleOrDefault(o => o.HOwnerUsername == uname);
-            int id = (int)TempData["Id"];
+            int id = owner.Id;
             var booking = entities.bookingDetailByOwner(id);
             return View(booking.ToList());
         }
