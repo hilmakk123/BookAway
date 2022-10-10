@@ -11,24 +11,34 @@ namespace BookAway.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Customer
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Customer()
-        {
+        public Customer() {
             this.Bookings = new HashSet<Booking>();
             this.Reviews = new HashSet<Review>();
         }
-    
+
         public int Id { get; set; }
+        [Required]
         public string CustUsername { get; set; }
+        [Required]
         public string CustPassword { get; set; }
+        [Required]
         public string CustFirstName { get; set; }
+        [Required]
         public string CustLastName { get; set; }
+        [Required]
+        [EmailAddress]
         public string CustEmail { get; set; }
+        [Required]
+        [Phone]
         public string CustContactNumber { get; set; }
-    
+        [Required]
+        public string ConfirmPass { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Booking> Bookings { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

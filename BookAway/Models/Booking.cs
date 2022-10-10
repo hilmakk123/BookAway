@@ -11,18 +11,32 @@ namespace BookAway.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Booking
     {
         public int Id { get; set; }
+        [Required]
         public Nullable<int> HotelId { get; set; }
+        [Required]
         public Nullable<int> CustId { get; set; }
+        [DisplayName("Check-in Date")]
+        [Required]
         public Nullable<System.DateTime> CheckIn { get; set; }
+        [DisplayName("Check-out Date")]
+        [Required]
         public Nullable<System.DateTime> CheckOut { get; set; }
+        [DisplayName("Rooms")]
+        [Required]
         public Nullable<int> NOfRooms { get; set; }
+        [DisplayName("Amount")]
         public Nullable<double> TotalAmount { get; set; }
     
+        [DisplayName("Customer")]
         public virtual Customer Customer { get; set; }
+
+        [DisplayName("Hotel")]
         public virtual Hotel Hotel { get; set; }
     }
 }

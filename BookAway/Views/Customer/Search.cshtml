@@ -1,15 +1,11 @@
-﻿@model IEnumerable<BookAway.Models.HotelDisplay_Result>
+﻿@model IEnumerable<BookAway.Models.Hotel>
 
 @{
     ViewBag.Title = "Search";
     Layout = "~/Views/Shared/_LayoutPage1.cshtml";
 }
 
-<h2>Search</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+<h2>Search Results</h2>
 
 <table class="table">
     <tr>
@@ -32,15 +28,10 @@
             @Html.DisplayNameFor(model => model.RentPerRoom)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.HotelPic)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.HotelCity)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.HotelOwner)
         </th>
-        <th></th>
     </tr>
 
 @foreach (var item in Model) {
@@ -64,18 +55,11 @@
             @Html.DisplayFor(modelItem => item.RentPerRoom)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.HotelPic)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.HotelCity)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.HotelOwner)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @*@Html.DisplayFor(modelItem => item.HotelOwner)*@
+            <button type="submit" class="btn btn-primary">Book</button>
         </td>
     </tr>
 }

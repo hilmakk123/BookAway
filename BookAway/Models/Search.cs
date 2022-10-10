@@ -10,12 +10,10 @@ namespace BookAway.Models
     {
         [Required]
         public string Detsination { get; set; }
-        [Required]
-        [DataType(DataType.Date)]
-        public DateTime CheckIn { get; set; }
-        [Required]
-        [DataType(DataType.Date)]
-        public DateTime CheckOut { get; set; }
+        //[DataType(DataType.Date)]
+        //public DateTime CheckIn { get; set; }
+        //[DataType(DataType.Date)]
+        //public DateTime CheckOut { get; set; }
         [Required]
        
         public int Rooms { get; set; }

@@ -46,6 +46,10 @@ namespace BookAway.Controllers
         {
             return View();
         }
+
+        public ActionResult Contact() {
+            return RedirectToAction("About");
+        }
        
 
     }

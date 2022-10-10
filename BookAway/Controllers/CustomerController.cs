@@ -18,20 +18,16 @@ namespace BookAway.Controllers
         //SqlDataReader sdr;
         BookAwayEntities entities = new BookAwayEntities();
         // GET: Customer
-        public ActionResult Index()
-        {
-            return View();
+        public ActionResult Index() {
+            return RedirectToAction("Index", "Home");
         }
-      
-        public ActionResult SignUp()
-        {
+
+        public ActionResult SignUp() {
             return View();
         }
         [HttpPost]
-        public ActionResult SignUp(Customer customer)
-        {
-            if (ModelState.IsValid)
-            {
+        public ActionResult SignUp(Customer customer) {
+            if (ModelState.IsValid) {
                 entities.Customers.Add(customer);
                 entities.SaveChanges();
                 ModelState.Clear();
@@ -40,26 +36,19 @@ namespace BookAway.Controllers
             }
             return View();
         }
-        public ActionResult LoginCust()
-        {
+        public ActionResult LoginCust() {
             return View();
         }
         [HttpPost]
-        public ActionResult LoginCust(Login customer)
-        {
-            if (ModelState.IsValid)
-            {
+        public ActionResult LoginCust(Login customer) {
+            if (ModelState.IsValid) {
                 bool n = entities.Customers.Any(x => x.CustUsername == customer.CustUsername && x.CustPassword == customer.CustPassword);
-                if (n)
-                {
+                if (n) {
                     FormsAuthentication.SetAuthCookie(customer.CustUsername, false);
-                    
+
                     TempData["user"] = "cust";
                     return RedirectToAction("Index", "Customer");
-                }
-
-                else
-                {
+                } else {
                     Response.Write(@"<script>alert('Not Valid User');</script>");
                 }
             }
@@ -67,14 +56,12 @@ namespace BookAway.Controllers
 
             return View();
         }
-        public ActionResult LogOutCust()
-        {
+        public ActionResult LogOutCust() {
             FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Home");
         }
-        
-        public ActionResult Search(Search search)
-        {
+
+        public ActionResult Search(Search search) {
 
             //var noRooms = (from b in entities.Bookings
             //              group b by b.Id into d
@@ -97,10 +84,14 @@ namespace BookAway.Controllers
             //sdr = cmd.ExecuteReader();
             //sd
             BookAwayEntities e1 = new BookAwayEntities();
-           
-            var hotels = entities.HoelDisplay(search.CheckIn, search.CheckOut, search.Detsination, search.Rooms);
-          
-            return View(hotels.ToList());
+
+            var hotels = e1.Hotels.ToList();
+            var cout = new List<Hotel>();
+            foreach (Hotel item in hotels)
+                if (item.HotelCity == search.Detsination) {
+                    cout.Add(item);
+                }
+            return View(cout);
         }
 
     }
